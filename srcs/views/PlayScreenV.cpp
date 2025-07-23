@@ -44,7 +44,6 @@ QLabel *PlayScreenV::imgScreen() const
 void PlayScreenV::onTrackChanged(const QString &title, const QImage &img)
 {
     m_titleTrack->setText(title);
-    qDebug() << "Image: " << img;
     m_imgDisplay->setPixmap(QPixmap::fromImage(img));
 }
 

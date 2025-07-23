@@ -67,8 +67,6 @@ void MediaPlayerM::next()
             lect();
         }
     }
-    else
-        qDebug() << "NextFuck";
 }
 
 void MediaPlayerM::prev()
@@ -87,8 +85,6 @@ void MediaPlayerM::prev()
         else
             m_player->setPosition(0);
     }
-    else
-        qDebug() << "PrevFuck";
 }
 
 void MediaPlayerM::addTrack(const QString &Track)

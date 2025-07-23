@@ -87,8 +87,7 @@ void MediaPlayerC::setPlayerConnects()
 void MediaPlayerC::onAddTrack()
 {
     QString trackPath = QFileDialog::getOpenFileName(m_cw, tr("Select Track"),
-                                                    //QDir::homePath(),
-                                                    "D:/Music/AC_DC/Back In Black/",
+                                                    QDir::homePath(),
                                                     tr("Sounds Files (*.mp3 *.mpga *.mpg4 *.wav *.wave *.bwf *.mp4 *.avi)")); //,
     if (!trackPath.isEmpty())
         m_model->addTrack(trackPath);
@@ -104,8 +103,7 @@ void MediaPlayerC::onRemoveTrack()
 void MediaPlayerC::onAddDirTracks()
 {
     QString trackDirPath = QFileDialog::getExistingDirectory(m_cw, tr("Select Tracks Directory"),
-                                                       //QDir::homePath(),
-                                                       "D:/Music/AC_DC/Back In Black/",
+                                                       QDir::homePath(),
                                                        QFileDialog::ShowDirsOnly);
     if (!trackDirPath.isEmpty()) {
         QDir trackDir(trackDirPath);
