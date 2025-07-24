@@ -34,12 +34,12 @@ public slots:
     void stop();
     void next();
     void prev();
-    void setVolume(const int volume);
     void addTrack(const QString &track);
     void removeTrack(const int track);
-    void setPositionTrack(const qint64 pos);
-    void setLoop(const bool state);
-    void setRandom(const bool state);
+    void onVolumeChanged(const int volume);
+    void onPositionChanged(const qint64 pos);
+    void onLoopChanged(const bool state);
+    void onRandomChanged(const bool state);
     void onMediaStatusChanged(QMediaPlayer::MediaStatus status);
     void onErrorThrown(QMediaPlayer::Error error, const QString &errorString);
 
@@ -53,7 +53,6 @@ signals:
 
 private slots:
     void onTackAdded(const QStringList track);
-    //void onTrackChanged(const);
 
 private:
     std::shared_ptr<QMediaPlayer>       m_player;

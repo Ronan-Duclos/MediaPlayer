@@ -52,8 +52,8 @@ void MediaPlayerC::setPlayListButtonsConnects()
     QObject::connect(bAddTrack, &QPushButton::released, this, &MediaPlayerC::onAddTrack);
     QObject::connect(bRemoveTrack, &QPushButton::released, this, &MediaPlayerC::onRemoveTrack);
     QObject::connect(bAddDirTrack, &QPushButton::released, this, &MediaPlayerC::onAddDirTracks);
-    QObject::connect(cLoop, &QPushButton::clicked, m_model.get(), &MediaPlayerM::setLoop);
-    QObject::connect(cRandom, &QPushButton::clicked, m_model.get(), &MediaPlayerM::setRandom);
+    QObject::connect(cLoop, &QPushButton::clicked, m_model.get(), &MediaPlayerM::onLoopChanged);
+    QObject::connect(cRandom, &QPushButton::clicked, m_model.get(), &MediaPlayerM::onRandomChanged);
 }
 
 void MediaPlayerC::setPlayListConnects()
@@ -76,7 +76,8 @@ void MediaPlayerC::setPlayerConnects()
 
     QObject::connect(playerM, &QMediaPlayer::durationChanged, playerV, &PlayerV::onDurationChanged);
     QObject::connect(playerM, &QMediaPlayer::positionChanged, playerV, &PlayerV::onPositionChanged);
-    QObject::connect(playerV, &PlayerV::positionChanged, m_model.get(), &MediaPlayerM::setPositionTrack);
+    QObject::connect(playerV, &PlayerV::positionChanged, m_model.get(), &MediaPlayerM::onPositionChanged);
+    QObject::connect(playerV, &PlayerV::volumeChanged, m_model.get(), &MediaPlayerM::onVolumeChanged);
     QObject::connect(lect, &QPushButton::released, m_model.get(), &MediaPlayerM::lect);
     QObject::connect(pause, &QPushButton::released, m_model.get(), &MediaPlayerM::pause);
     QObject::connect(stop, &QPushButton::released, m_model.get(), &MediaPlayerM::stop);

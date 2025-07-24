@@ -9,6 +9,7 @@ PlayListButtonsV::PlayListButtonsV(QWidget *parent) :
     m_random(new QPushButton(this))
 {
     m_loop->setCheckable(true);
+    m_random->setCheckable(true);
 }
 
 void PlayListButtonsV::init()

@@ -2,6 +2,7 @@
 #include <QDebug>
 #include <QMediaMetaData>
 #include <QRandomGenerator>
+#include <QAudio>
 
 MediaPlayerM::MediaPlayerM(QObject *parent) :
     QObject{parent}, m_curTrack(0), m_loop(false),
@@ -11,7 +12,7 @@ MediaPlayerM::MediaPlayerM(QObject *parent) :
     m_table(new TracksTableM(this))
 {
     m_player->setAudioOutput(m_audioOutput.get());
-    m_audioOutput->setVolume(50);
+    m_audioOutput->setVolume(1);
     setConnects();
 }
 
@@ -111,11 +112,6 @@ void MediaPlayerM::removeTrack(const int Track)
         emit tracksListEmptyChanged(true);
 }
 
-void MediaPlayerM::setPositionTrack(const qint64 pos)
-{
-    m_player->setPosition(pos);
-}
-
 QList<std::shared_ptr<AudioFileM>> MediaPlayerM::playList() const
 {
     return m_playList;
@@ -146,17 +142,26 @@ bool MediaPlayerM::isRandom() const
     return m_random;
 }
 
-void MediaPlayerM::setVolume(const int volume)
+void MediaPlayerM::onPositionChanged(const qint64 pos)
 {
-    m_audioOutput->setVolume(volume);
+    m_player->setPosition(pos);
 }
 
-void MediaPlayerM::setLoop(const bool state)
+void MediaPlayerM::onVolumeChanged(const int volume)
+{
+    qDebug() << "MediaPlayer::onVolumeChanged" << volume;
+    qreal linearVolume = QAudio::convertVolume(volume / qreal(100.0),
+                                                QAudio::LogarithmicVolumeScale,
+                                                QAudio::LinearVolumeScale);
+    m_audioOutput->setVolume(linearVolume);
+}
+
+void MediaPlayerM::onLoopChanged(const bool state)
 {
     m_loop = state;
 }
 
-void MediaPlayerM::setRandom(const bool state)
+void MediaPlayerM::onRandomChanged(const bool state)
 {
     m_random = state;
 }
