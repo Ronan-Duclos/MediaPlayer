@@ -8,6 +8,8 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     QWidget *cw = ui->centralwidget;
+    this->setFixedHeight(this->height());
+    this->setFixedWidth(this->width());
     cw->setFixedHeight(this->height());
     cw->setFixedWidth(this->width());
     m_controller = std::make_unique<MediaPlayerC>(cw);
