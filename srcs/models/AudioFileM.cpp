@@ -86,7 +86,7 @@ void AudioFileM::setInfo()
     m_album = tmp.value(QMediaMetaData::AlbumTitle).toString();
     m_duration = tmp.value(QMediaMetaData::Duration).toULongLong();
 
-    setImage();
+    //setImage();
 
     disconnect(m_mp, &QMediaPlayer::mediaStatusChanged, this, &AudioFileM::onMediaStatusChanged);
     delete m_mp;

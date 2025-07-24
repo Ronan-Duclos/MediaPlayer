@@ -12,7 +12,7 @@ MainWindow::MainWindow(QWidget *parent) :
     cw->setFixedWidth(this->width());
     m_controller = std::make_unique<MediaPlayerC>(cw);
     this->setWindowIcon(QIcon("img/CanaSky.ico"));
-    this->setWindowTitle("MySuperPlayer");
+    this->setWindowTitle("CanaSky Player");
 }
 
 MainWindow::~MainWindow()
