@@ -20,6 +20,7 @@ public:
 
 public slots:
     void displayTable(QAbstractTableModel *model);
+    void setCurrentIndex(int row);
 
 private:
     std::unique_ptr<QVBoxLayout>        m_mainLayout;

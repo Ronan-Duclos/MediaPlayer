@@ -67,42 +67,10 @@ QImage AudioFileM::image() const
     return m_img;
 }
 
-std::shared_ptr<AudioFileM> AudioFileM::next()
-{
-    return m_next;
-}
-
-void AudioFileM::setNext(const std::shared_ptr<AudioFileM> next)
-{
-    m_next = next;
-}
-
-void AudioFileM::unSetNext()
-{
-    m_next = nullptr;
-}
-
 void AudioFileM::onMediaStatusChanged(QMediaPlayer::MediaStatus status)
 {
     if (status == QMediaPlayer::LoadedMedia)
         setInfo();
-}
-
-void AudioFileM::setImage()
-{
-/*
-    QMediaMetaData tmp = m_mp->metaData();
-
-    foreach (const QMediaMetaData::Key &key, tmp.keys()) {
-        qDebug() << key << tmp.value(key);
-    }
-    cover = QImage::fromData(tmp.value(QMediaMetaData::CoverArtImage).toByteArray());
-    qDebug() << "Cover:" << cover;
-    QVariant img = tmp.value(QMediaMetaData::ThumbnailImage);
-    qDebug() << "ImageQVariant: " << img;
-    m_img = img.value<QImage>();
-    qDebug() << "ImageQImage:" << m_img;
-*/
 }
 
 void AudioFileM::setInfo()
@@ -123,4 +91,21 @@ void AudioFileM::setInfo()
     disconnect(m_mp, &QMediaPlayer::mediaStatusChanged, this, &AudioFileM::onMediaStatusChanged);
     delete m_mp;
     emit trackAdded({m_title, m_singer, m_album, durationToString()});
+}
+
+void AudioFileM::setImage()
+{
+    /*
+    QMediaMetaData tmp = m_mp->metaData();
+
+    foreach (const QMediaMetaData::Key &key, tmp.keys()) {
+        qDebug() << key << tmp.value(key);
+    }
+    cover = QImage::fromData(tmp.value(QMediaMetaData::CoverArtImage).toByteArray());
+    qDebug() << "Cover:" << cover;
+    QVariant img = tmp.value(QMediaMetaData::ThumbnailImage);
+    qDebug() << "ImageQVariant: " << img;
+    m_img = img.value<QImage>();
+    qDebug() << "ImageQImage:" << m_img;
+*/
 }

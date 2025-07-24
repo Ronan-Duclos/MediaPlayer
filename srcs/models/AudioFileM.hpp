@@ -17,10 +17,6 @@ public:
     qint64 duration() const;
     QString durationToString() const;
     QImage image()const;
-    std::shared_ptr<AudioFileM> next();
-    void setNext(const std::shared_ptr<AudioFileM> next);
-    void unSetNext();
-    void setInfo();
 
 signals:
     void trackAdded(QStringList track);
@@ -36,7 +32,7 @@ private:
     qint64 m_duration;
     QImage m_img;
     QMediaPlayer *m_mp;
-    std::shared_ptr<AudioFileM> m_next;
 
+    void setInfo();
     void setImage();
 };

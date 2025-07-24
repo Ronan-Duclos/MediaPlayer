@@ -23,6 +23,7 @@ void PlayListV::init()
     m_mainLayout->addWidget(m_playList.get());
     m_mainLayout->addWidget(m_buttons.get());
     m_buttons->init();
+    m_playList->setSelectionBehavior(QAbstractItemView::SelectRows);
 }
 
 QTableView *PlayListV::table() const
@@ -43,5 +44,10 @@ int PlayListV::getSelectedRow() const
 void PlayListV::displayTable(QAbstractTableModel *model)
 {
     m_playList->setModel(model);
+}
+
+void PlayListV::setCurrentIndex(int row)
+{
+    m_playList->selectRow(row);
 }
 

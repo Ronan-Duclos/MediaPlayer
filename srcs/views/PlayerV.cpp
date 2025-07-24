@@ -2,7 +2,7 @@
 
 PlayerV::PlayerV(QWidget *parent) :
     QWidget{parent}, m_mainLayout(new QHBoxLayout(this)),
-    m_secondLayout(new QVBoxLayout(this)),
+    m_secondLayout(new QVBoxLayout),
     m_volume(new QSlider(Qt::Vertical, this)),
     m_position(new QSlider(Qt::Horizontal, this)),
     m_buttons(new PlayerButtonsV(this)), m_positionPressed(false)

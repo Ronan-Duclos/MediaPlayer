@@ -29,6 +29,7 @@ private slots:
     void onAddTrack();
     void onRemoveTrack();
     void onAddDirTracks();
+    void onTrackChanged(const QString &name, const QImage &img, const int nbTrack);
 
 };
 

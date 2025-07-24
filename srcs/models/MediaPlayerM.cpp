@@ -20,11 +20,10 @@ void MediaPlayerM::lect()
 {
     if (m_playList.size() > 0) {
         if (!m_paused) {
-            if (m_random)
-                m_curTrack = QRandomGenerator::global()->generate();
-            std::shared_ptr<AudioFileM> track = m_playList.at(m_curTrack);
+            int trackNb = selectTrack();
+            std::shared_ptr<AudioFileM> track = m_playList.at(trackNb);
             m_player->setSource(QUrl::fromLocalFile(track->path()));
-            emit trackChanged(track->title(), track->image());
+            emit trackChanged(track->title(), track->image(), trackNb);
             if (track->path().endsWith(".mp4") || track->path().endsWith(".avi"))
                 emit displayChanged(false);
             else
@@ -102,6 +101,8 @@ void MediaPlayerM::addTrack(const QString &Track)
     QObject::connect(tmp.get(), &AudioFileM::trackAdded, this, &MediaPlayerM::onTackAdded);
     if (empty)
         emit tracksListEmptyChanged(false);
+    if (m_random)
+        setRandomTracks();
 }
 
 void MediaPlayerM::removeTrack(const int Track)
@@ -110,6 +111,8 @@ void MediaPlayerM::removeTrack(const int Track)
     m_table->removeRow(Track);
     if (m_playList.isEmpty())
         emit tracksListEmptyChanged(true);
+    if (m_random)
+        setRandomTracks();
 }
 
 QList<std::shared_ptr<AudioFileM>> MediaPlayerM::playList() const
@@ -149,7 +152,6 @@ void MediaPlayerM::onPositionChanged(const qint64 pos)
 
 void MediaPlayerM::onVolumeChanged(const int volume)
 {
-    qDebug() << "MediaPlayer::onVolumeChanged" << volume;
     qreal linearVolume = QAudio::convertVolume(volume / qreal(100.0),
                                                 QAudio::LogarithmicVolumeScale,
                                                 QAudio::LinearVolumeScale);
@@ -164,6 +166,11 @@ void MediaPlayerM::onLoopChanged(const bool state)
 void MediaPlayerM::onRandomChanged(const bool state)
 {
     m_random = state;
+
+    if (m_random)
+        setRandomTracks();
+    else
+        m_curTrack = m_randOrder.at(m_curTrack);
 }
 
 void MediaPlayerM::onMediaStatusChanged(QMediaPlayer::MediaStatus status)
@@ -189,4 +196,31 @@ void MediaPlayerM::setConnects()
 {
     QObject::connect(m_player.get(), &QMediaPlayer::errorOccurred, this, &MediaPlayerM::onErrorThrown);
     QObject::connect(m_player.get(), &QMediaPlayer::mediaStatusChanged, this, &MediaPlayerM::onMediaStatusChanged);
+}
+
+void MediaPlayerM::setRandomTracks()
+{
+    int size = m_playList.size();
+    if (size < 1)
+        return ;
+
+    m_randOrder.clear();
+    QList<int> tmp;
+    for (int i = 0; i < size; i++)
+        tmp.push_back(i);
+    for (int i = size - 1; i > 0; i--) {
+        int rand = QRandomGenerator::global()->generate() % i;
+        m_randOrder.push_back(tmp.at(rand));
+        tmp.removeAt(rand);
+    }
+    m_randOrder.push_back(tmp.at(0));
+    m_curTrack = 0;
+}
+
+int MediaPlayerM::selectTrack()
+{
+    if (m_random)
+        return m_randOrder.at(m_curTrack);
+    else
+        return m_curTrack;
 }

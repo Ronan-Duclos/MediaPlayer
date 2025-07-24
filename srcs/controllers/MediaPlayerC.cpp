@@ -33,7 +33,7 @@ void MediaPlayerC::setModelConnects()
     PlayerButtonsV *playerB = m_view->player()->buttons();
     PlayScreenV *screen = m_view->playScreen();
 
-    QObject::connect(m_model.get(), &MediaPlayerM::trackChanged, screen, &PlayScreenV::onTrackChanged);
+    QObject::connect(m_model.get(), &MediaPlayerM::trackChanged, this, &MediaPlayerC::onTrackChanged);
     QObject::connect(m_model.get(), &MediaPlayerM::displayChanged, screen, &PlayScreenV::onDisplayChanged);
     QObject::connect(m_model.get(), &MediaPlayerM::tracksListEmptyChanged, playerB, &PlayerButtonsV::setPlayList);
     QObject::connect(m_model.get(), &MediaPlayerM::stoppedChanged, playerB, &PlayerButtonsV::setStop);
@@ -117,4 +117,10 @@ void MediaPlayerC::onAddDirTracks()
                 m_model->addTrack(trackDirPath + '/' + file);
         }
     }
+}
+
+void MediaPlayerC::onTrackChanged(const QString &name, const QImage &img, const int nbTrack)
+{
+    m_view->playScreen()->onTrackChanged(name, img);
+    m_view->playList()->setCurrentIndex(nbTrack);
 }

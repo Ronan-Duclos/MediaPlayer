@@ -48,7 +48,7 @@ signals:
     void stoppedChanged(const bool stopped);
     void pausedChanged(const bool paused);
     void tracksListEmptyChanged(const bool empty);
-    void trackChanged(const QString &name, const QImage &img);
+    void trackChanged(const QString &name, const QImage &img, const int nbTrack);
     void displayChanged(const bool img);
 
 private slots:
@@ -59,6 +59,7 @@ private:
     std::shared_ptr<QAudioOutput>       m_audioOutput;
     std::shared_ptr<TracksTableM>       m_table;
     QList<std::shared_ptr<AudioFileM>>  m_playList;
+    QList<int>                          m_randOrder;
     int                                 m_curTrack;
     bool                                m_loop;
     bool                                m_random;
@@ -66,5 +67,7 @@ private:
     bool                                m_paused;
 
     void setConnects();
+    void setRandomTracks();
+    int selectTrack();
 
 };
